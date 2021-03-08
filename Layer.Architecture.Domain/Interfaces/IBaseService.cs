@@ -6,14 +6,20 @@ namespace Layer.Architecture.Domain.Interfaces
 {
     public interface IBaseService<TEntity> where TEntity : BaseEntity
     {
-        TEntity Add<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>;
+        TOutputModel Add<TInputModel, TOutputModel, TValidator>(TInputModel inputModel)
+            where TValidator : AbstractValidator<TEntity>
+            where TInputModel : class
+            where TOutputModel : class;
 
         void Delete(int id);
 
-        IList<TEntity> Get();
+        IEnumerable<TOutputModel> Get<TOutputModel>() where TOutputModel : class;
 
-        TEntity GetById(int id);
+        TOutputModel GetById<TOutputModel>(int id) where TOutputModel : class;
 
-        TEntity Update<TValidator>(TEntity obj) where TValidator : AbstractValidator<TEntity>;
+        TOutputModel Update<TInputModel, TOutputModel, TValidator>(TInputModel inputModel)
+            where TValidator : AbstractValidator<TEntity>
+            where TInputModel : class
+            where TOutputModel : class;
     }
 }

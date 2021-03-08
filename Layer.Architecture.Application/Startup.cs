@@ -1,3 +1,5 @@
+using AutoMapper;
+using Layer.Architecture.Application.Models;
 using Layer.Architecture.Domain.Entities;
 using Layer.Architecture.Domain.Interfaces;
 using Layer.Architecture.Infra.Data.Context;
@@ -42,6 +44,13 @@ namespace Layer.Architecture.Application
 
             services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
             services.AddScoped<IBaseService<User>, BaseService<User>>();
+
+            services.AddSingleton(new MapperConfiguration(config =>
+            {
+                config.CreateMap<CreateUserModel, User>();
+                config.CreateMap<UpdateUserModel, User>();
+                config.CreateMap<User, UserModel>();
+            }).CreateMapper());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
