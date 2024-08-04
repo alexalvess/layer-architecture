@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Layer.Architecture.Application
 {
@@ -34,8 +35,9 @@ namespace Layer.Architecture.Application
                 var database = Configuration["database:mysql:database"];
                 var username = Configuration["database:mysql:username"];
                 var password = Configuration["database:mysql:password"];
+                var serverVersion = new MySqlServerVersion(new Version(8, 0, 21)); // Especifique a versão do servidor MySQL
 
-                options.UseMySql($"Server={server};Port={port};Database={database};Uid={username};Pwd={password}", opt =>
+                options.UseMySql($"Server={server};Port={port};Database={database};Uid={username};Pwd={password}", serverVersion, opt =>
                 {
                     opt.CommandTimeout(180);
                     opt.EnableRetryOnFailure(5);
